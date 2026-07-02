@@ -9,7 +9,7 @@ CREATE TABLE booking_seats(
 
     CONSTRAINT fk_booking
     FOREIGN KEY (booking_id)
-    REFERENCES bookings(id);
+    REFERENCES bookings(id),
 
     CONSTRAINT fk_seat
     FOREIGN KEY (seat_id)

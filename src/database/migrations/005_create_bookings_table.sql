@@ -5,12 +5,9 @@ CREATE TABLE bookings(
     payment_status payment_status NOT NULL DEFAULT 'PENDING',
     booking_status booking_status NOT NULL DEFAULT 'CONFIRMED',
     total_amount DECIMAL(10,2) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_booking_show
     FOREIGN KEY (show_id)
     REFERENCES shows(id)
 );
-
-CREATE INDEX idx_seats_show_status
-   ON seats(show_id, status)
