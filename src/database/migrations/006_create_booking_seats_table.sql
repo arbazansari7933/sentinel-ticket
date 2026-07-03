@@ -1,5 +1,5 @@
 CREATE TABLE booking_seats(
-    booking_id UUID PRIMARY NOT NULL,
+    booking_id UUID NOT NULL,
     seat_id UUID NOT NULL,
     seat_price DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

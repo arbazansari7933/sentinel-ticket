@@ -52,3 +52,52 @@ export async function bulkInsertSeats(client, showId, seats) {
     return result.rows;
     
 }
+
+export async function getAllShowsRepository(client) {
+    //console.log("Repo Reached");
+
+    const query=`
+    SELECT id, 
+    movie_name, 
+    hall_name,
+    ticket_price, 
+    starts_at,
+    ends_at 
+    FROM shows
+    WHERE starts_at >= CURRENT_TIMESTAMP
+    ORDER BY starts_at ASC;
+    `;
+
+    const result = await client.query(query);
+    //console.log("Repo result: ", result.rows);
+
+    return result.rows;
+
+}
+
+export async function getOneShowRepository(client, show_id) {
+
+    const query = `
+    SELECT id, movie_name, ticket_price
+    FROM shows
+    WHERE id='${show_id}';
+    `;
+
+    const result = await client.query(query);
+    console.log("Show: ", result.rows);
+}
+
+export async function getSeatsRepository(client, show_id) {
+
+    const query=`
+    SELECT *
+    FROM seats 
+    WHERE show_id=$1;
+    `;
+
+    const result = await client.query(query, [show_id]);
+    console.log("Show: ", result.rows);
+}
+
+
+

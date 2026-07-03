@@ -1,12 +1,21 @@
-CREATE TYPE payment_status AS ENUM (
-    'PENDING',
-    'SUCCESS',
-    'FAILED',
-    'REFUNDED'
-);
+DO $$
+BEGIN
+    CREATE TYPE payment_status AS ENUM (
+        'pending',
+        'completed',
+        'failed'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;
 
-CREATE TYPE booking_status AS ENUM (
-    'CONFIRMED',
-    'CANCELLED',
-    'EXPIRED'
-);
+DO $$
+BEGIN
+    CREATE TYPE booking_status AS ENUM (
+        'CONFIRMED',
+        'CANCELLED',
+        'EXPIRED'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;

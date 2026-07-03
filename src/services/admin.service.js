@@ -1,6 +1,7 @@
 import pool from "../config/db.js";
 import { insertShow, bulkInsertSeats } from "../repositories/show.repository.js";
 import { generateSeats } from "../utils/seatGenerator.js";
+
 export async function createShow(showData) {
     const client = await pool.connect()
     try {
@@ -34,3 +35,4 @@ export async function createShow(showData) {
 
     }
 }
+
