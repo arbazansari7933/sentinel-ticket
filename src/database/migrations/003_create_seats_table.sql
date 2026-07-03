@@ -1,3 +1,14 @@
+DO $$
+BEGIN
+    CREATE TYPE seat_status AS ENUM (
+        'available',
+        'temporary_locked',
+        'booked'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN NULL;
+END $$;
+
 CREATE TABLE seats (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     show_id UUID NOT NULL,
@@ -15,4 +26,4 @@ CREATE TABLE seats (
 );
 
 CREATE INDEX idx_seats_show_status
-   ON seats(show_id, status)
+   ON seats(show_id, status);

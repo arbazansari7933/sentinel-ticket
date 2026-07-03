@@ -22,11 +22,12 @@ export const getOneShow = async (req, res) => {
     
     try {
         const {show_id}=req.params;
-        await getOneShowService(show_id);
+        const show = await getOneShowService(show_id);
         //console.log("Shows from repository:", shows);
         return res.status(200).json({
             success: true,
             message: "fetched successfully",
+            data: show,
         })
     } catch (error) {
         return res.status(500).json({
@@ -39,11 +40,12 @@ export const getSeats = async (req, res) => {
     
     try {
         const {show_id}=req.params;
-        await getSeatsService(show_id);
+        const seat = await getSeatsService(show_id);
         //console.log("Shows from repository:", shows);
         return res.status(200).json({
             success: true,
             message: "fetched successfully",
+            data: seat,
         })
     } catch (error) {
         return res.status(500).json({

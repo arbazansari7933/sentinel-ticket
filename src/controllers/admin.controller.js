@@ -11,7 +11,9 @@ export const createShowController = async (req, res) => {
         // });
 
     } catch (error) {
-        return res.status(500).json({
+        const isValidationError = error.message.includes("required") ||
+            error.message.includes("must be");
+        return res.status(isValidationError ? 400 : 500).json({
             success: false,
             message: error.message,
         });

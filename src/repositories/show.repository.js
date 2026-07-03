@@ -47,7 +47,7 @@ export async function bulkInsertSeats(client, showId, seats) {
         RETURNING *;
     `;
 
-    const result = client.query(query, values);
+    const result = await client.query(query, values);
 
     return result.rows;
     
@@ -80,11 +80,12 @@ export async function getOneShowRepository(client, show_id) {
     const query = `
     SELECT id, movie_name, ticket_price
     FROM shows
-    WHERE id='${show_id}';
+    WHERE id=$1;
     `;
 
-    const result = await client.query(query);
-    console.log("Show: ", result.rows);
+    const result = await client.query(query, [show_id]);
+    return result.rows;
+    //console.log("Show: ", result.rows);
 }
 
 export async function getSeatsRepository(client, show_id) {
@@ -96,7 +97,8 @@ export async function getSeatsRepository(client, show_id) {
     `;
 
     const result = await client.query(query, [show_id]);
-    console.log("Show: ", result.rows);
+    //console.log("Show: ", result.rows);
+    return result.rows
 }
 
 

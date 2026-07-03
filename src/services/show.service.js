@@ -1,5 +1,4 @@
 import pool from "../config/db.js";
-import { getSeats } from "../controllers/show.controllers.js";
 import { getAllShowsRepository , getOneShowRepository, getSeatsRepository } from "../repositories/show.repository.js";
 export async function getAllShows() {
     //console.log("Services Reached");
@@ -17,7 +16,8 @@ export async function getOneShowService(show_id) {
     
     const client = await pool.connect()
     try {
-        await getOneShowRepository(client, show_id);
+        const show = await getOneShowRepository(client, show_id);
+        return show;
     } finally{
         client.release();
     }
@@ -28,7 +28,8 @@ export async function getSeatsService(show_id) {
     
     const client = await pool.connect()
     try {
-        await getSeatsRepository(client, show_id);
+        const seats = await getSeatsRepository(client, show_id);
+        return seats;
     } finally{
         client.release();
     }

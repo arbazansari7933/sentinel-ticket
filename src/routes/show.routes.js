@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getShows, getOneShow, getSeats} from "../controllers/show.controllers.js";
+import { getShows, getOneShow, getSeats} from "../controllers/show.controller.js";
 const router = Router();
 
 router.get("/", getShows);
