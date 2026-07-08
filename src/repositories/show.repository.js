@@ -84,7 +84,7 @@ export async function getOneShowRepository(client, show_id) {
     `;
 
     const result = await client.query(query, [show_id]);
-    return result.rows;
+    return result.rows[0];
     //console.log("Show: ", result.rows);
 }
 

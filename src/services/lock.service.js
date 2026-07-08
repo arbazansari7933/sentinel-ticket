@@ -11,13 +11,7 @@ export async function acquireLock(userId, showId, seatIds) {
         const key = `show:${showId}:seat:${seatId}`;
         //console.log("after key, here is key: ", key);
         const result = await redis.set(key, userId, "EX", LOCK_EXPIRY, "NX");
-       console.log("SET:", key, result);
-
-const value = await redis.get(key);
-console.log("GET:", value);
-
-const ttl = await redis.ttl(key);
-console.log("TTL:", ttl);
+      
         //if lock failed 
         if(result===null){
             return {
@@ -40,7 +34,7 @@ export async function releaseLock(lockedSeatIds, showId) {
     for (const lockedSeatId of lockedSeatIds) {
         keys.push(`show:${showId}:seat:${lockedSeatId}`);
     }
-    console.log("Deleting key:", keys);
+
     await redis.del(...keys);
 
     return {
@@ -48,7 +42,14 @@ export async function releaseLock(lockedSeatIds, showId) {
     };
 }
 
-export async function getLockOwner(showId, seatId) {
+export async function verifyLockOwnership(userId, showId, seatIds) {
 
-    
+    for (const seatId of seatIds) {
+        const key=`show:${showId}:seat:${seatId}`;
+        const lockedUserId = await redis.get(key);
+        if(userId!==lockedUserId){
+            return false;
+        }
+    }
+    return true;
 }

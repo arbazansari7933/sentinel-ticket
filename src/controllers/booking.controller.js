@@ -28,3 +28,7 @@ export const holdSeatsController=async(req, res)=>{
     }
 
 }
+
+export const confirmBookingController=async(req, res)=>{
+    
+}
