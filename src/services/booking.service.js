@@ -1,20 +1,19 @@
 import { updateSeatStatus } from "../repositories/booking.repository.js";
 import { acquireLock, releaseLock } from "./lock.service.js";
 export async function holdSeats(data) {
-    try {
-        const {
+
+    const {
         userId,
         showId,
         seatIds,
-    }=data;
+    } = data;
     //1: try to aquire redis lock
     const lockResult = await acquireLock(userId, showId, seatIds);
 
     //2: if locking failed clean up and return
-    if(!lockResult.success){
-        if(lockResult.lockedSeatIds?.length > 0){
-            await releaseLock(lockResult.lockedSeatIds);
-        }
+    console.log("Redis response: ", lockResult.success);
+    
+    if (!lockResult.success) {
 
         return {
             success: false,
@@ -22,16 +21,25 @@ export async function holdSeats(data) {
         };
     }
     //3: update postgres seats status 
-    const result = await updateSeatStatus(showId, seatIds);
-    //4: return response
-    return {
-            success: true,
-            message: "Seats marked (temporary_locked) successfully",
-            data: result,
+    const updateSeats = await updateSeatStatus(showId, seatIds);
+    //4: verify & return response
+            console.log("we are at length check", updateSeats.length , seatIds.length);
+
+    if (updateSeats.length !== seatIds.length) {
+        
+        await releaseLock(lockResult.lockedSeatIds, showId);
+        return {
+            success: false,
+            message: "Failed to hold all the selected seats",
         };
-    } catch (error) {
-        throw error;
 
     }
+    //5: success
+    return {
+        success: true,
+        message: "Seats marked (temporary_locked) successfully",
+        data: updateSeats,
+    };
+
 }
 

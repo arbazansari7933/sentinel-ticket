@@ -5,7 +5,13 @@ export const holdSeatsController=async(req, res)=>{
     try {
         validateBooking(req.body);
         const result = await holdSeats(req.body);
-        res.status(201).json({
+        if(!result.success){
+            return res.status(400).json({
+            success: false,
+            message: "Failed to hold seats",
+            });
+        }
+        return res.status(201).json({
             success: true,
             message: "Hold Successfully",
             data: result,

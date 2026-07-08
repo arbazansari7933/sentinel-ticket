@@ -2,7 +2,7 @@ export function validateBooking(data) {
     const {
         userId,
         showId,
-        seatsIds,
+        seatIds,
     }=data;
     if (!userId) {
         throw new Error("UserID is required");
@@ -10,13 +10,13 @@ export function validateBooking(data) {
     if (!showId) {
         throw new Error("ShowID is required");
     }
-    if(!seatsIds) {
+    if(!seatIds) {
         throw new Error("SeatsID is required");
     }
-    if(!Array.isArray(seatsIds)){
+    if(!Array.isArray(seatIds)){
         throw new Error("Seats IDs must be an array");
     }
-    if(seatsIds.length===0){
+    if(seatIds.length===0){
         throw new Error("At least one seat must be selected");
     }
 
