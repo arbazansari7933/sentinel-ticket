@@ -56,6 +56,7 @@ export async function confirmBooking(data) {
         showId,
         seatIds,
     } = data;
+
     const client = await pool.connect();
 
     try {
@@ -64,7 +65,11 @@ export async function confirmBooking(data) {
         const isLockOwner = await verifyLockOwnership(userId, showId, seatIds);
 
         if (!isLockOwner) {
+               console.log("we are here");
+
             throw new Error("Lock not found");
+               console.log("we are here");
+
         }
 
 

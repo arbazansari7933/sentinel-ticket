@@ -4,9 +4,11 @@ export async function updateSeatsToTemporaryLocked(showId, seatIds) {
 
     const query = `
     UPDATE seats
-    SET status='temporary_locked'
+    SET status='temporary_locked',
+    locked_at=CURRENT_TIMESTAMP
     WHERE show_id=$1
     AND id = ANY($2)
+    AND status = 'available'
     RETURNING *`;    
 
     const result = await pool.query(query, [showId, seatIds]);    
@@ -18,7 +20,8 @@ export async function updateSeatsToAvailable(client, showId, seatIds) {
 
     const query = `
     UPDATE seats
-    SET status='available'
+    SET status='available',
+    locked_at=NULL
     WHERE show_id=$1
     AND id = ANY($2)
     RETURNING *`;    
@@ -43,7 +46,8 @@ export async function getSeatsForUpdate(client, showId, seatIds) {
 export async function updateSeatsToBooked(client, showId, seatIds) {
     const query = `
     UPDATE seats
-    SET status='booked'
+    SET status='booked',
+    locked_at=NULL
     WHERE show_id=$1
     AND id = ANY($2)
     AND status = 'temporary_locked'
@@ -98,5 +102,19 @@ export async function createBookingSeats(client, bookingId, seatIds, ticketPrice
     RETURNING *`;
 
     const result = await client.query(query, values);
+    return result.rows;
+}
+
+export async function releaseExpiredSeat() {
+
+    const query = `
+    UPDATE seats
+    SET status='available'
+    WHERE status = 'temporary_locked'
+    AND locked_at < NOW() - INTERVAL '10 minutes'
+    RETURNING *`;    
+
+    const result = await pool.query(query);    
+
     return result.rows;
 }

@@ -1,0 +1,2 @@
+ALTER TABLE seats
+ADD COLUMN locked_at TIMESTAMP NULL;

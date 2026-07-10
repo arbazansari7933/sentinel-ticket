@@ -14,7 +14,7 @@ export const holdSeatsController=async(req, res)=>{
         return res.status(201).json({
             success: true,
             message: "Hold Successfully",
-            data: result,
+            data: result.data,
         })
     } catch (error) {
         const isValidationError =
