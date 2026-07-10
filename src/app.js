@@ -2,6 +2,7 @@ import express from "express";
 import adminRoutes from "./routes/admin.routes.js"
 import showRoutes from "./routes/show.routes.js"
 import bookingRoutes from "./routes/booking.routes.js"
+import paymentRoutes from "./routes/payment.routes.js"
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use("/admin", adminRoutes);
 app.use("/shows", showRoutes);
 app.use("/bookings", bookingRoutes);
+app.use("/payment", paymentRoutes)
 
 
 app.get("/", (req, res) => {

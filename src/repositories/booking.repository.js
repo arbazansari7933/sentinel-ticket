@@ -1,6 +1,6 @@
 import pool from "../config/db.js";
 
-export async function updateSeatStatus(showId, seatIds) {
+export async function updateSeatsToTemporaryLocked(showId, seatIds) {
 
     const query = `
     UPDATE seats
@@ -10,6 +10,20 @@ export async function updateSeatStatus(showId, seatIds) {
     RETURNING *`;    
 
     const result = await pool.query(query, [showId, seatIds]);    
+
+    return result.rows;
+}
+
+export async function updateSeatsToAvailable(client, showId, seatIds) {
+
+    const query = `
+    UPDATE seats
+    SET status='available'
+    WHERE show_id=$1
+    AND id = ANY($2)
+    RETURNING *`;    
+
+    const result = await client.query(query, [showId, seatIds]);    
 
     return result.rows;
 }
@@ -64,7 +78,7 @@ export async function createBooking(client, bookingData) {
 
     const result = await client.query(query, values);
 
-    return result.rows;
+    return result.rows[0];
 }
 export async function createBookingSeats(client, bookingId, seatIds, ticketPrice) {
 
