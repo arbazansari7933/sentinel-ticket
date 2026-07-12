@@ -2,8 +2,11 @@ import { confirmBooking, cleanupFailedPayment} from "./booking.service.js";
 
 export async function paymentConfirmService(data) {
     
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    const paymentSuccess = Math.random() < 0.9;
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    // const paymentSuccess = Math.random() < 0.9;
+    const paymentSuccess = process.env.NODE_ENV === "test"
+    ? true
+    : true; // fake payment always succeeds
 
     if (!paymentSuccess) {
         await cleanupFailedPayment(data);

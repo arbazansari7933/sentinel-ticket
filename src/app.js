@@ -3,7 +3,6 @@ import adminRoutes from "./routes/admin.routes.js"
 import showRoutes from "./routes/show.routes.js"
 import bookingRoutes from "./routes/booking.routes.js"
 import paymentRoutes from "./routes/payment.routes.js"
-import { releaseExpiredSeatHolds } from "./services/expiry.service.js";
 
 const app = express();
 
@@ -16,7 +15,7 @@ app.use("/payment", paymentRoutes)
 
 
 app.get("/", (req, res) => {
-  res.send("SentinelTicket API is running ");
+  res.send("SentinelTicket API is running");
 });
 
 app.get("/health", (req, res) => {
@@ -26,12 +25,6 @@ app.get("/health", (req, res) => {
   });
 });
 
-setInterval(async () => {
-    try {
-        await releaseExpiredSeatHolds();
-    } catch (error) {
-        console.error("Seat expiry cleanup failed:", error);
-    }
-}, 30 * 1000);
+
 
 export default app;

@@ -1,10 +1,8 @@
 import { getAllShows, getOneShowService , getSeatsService} from "../services/show.service.js"
 export const getShows = async (req, res) => {
-    //console.log("Controller reahced");
     
     try {
         const shows = await getAllShows();
-        //console.log("Shows from repository:", shows);
         return res.status(200).json({
             success: true,
             message: "fetched successfully",
@@ -23,7 +21,7 @@ export const getOneShow = async (req, res) => {
     try {
         const {show_id}=req.params;
         const show = await getOneShowService(show_id);
-        //console.log("Shows from repository:", shows);
+
         return res.status(200).json({
             success: true,
             message: "fetched successfully",
@@ -41,7 +39,7 @@ export const getSeats = async (req, res) => {
     try {
         const {show_id}=req.params;
         const seat = await getSeatsService(show_id);
-        //console.log("Shows from repository:", shows);
+
         return res.status(200).json({
             success: true,
             message: "fetched successfully",

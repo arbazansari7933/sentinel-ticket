@@ -1,8 +1,13 @@
 import dotenv from "dotenv";
 import app from "./app.js";
 import pool from "./config/db.js";
+import { releaseExpiredSeat } from "./repositories/booking.repository.js";
 
-dotenv.config();
+dotenv.config({
+    path: process.env.NODE_ENV === "test"
+        ? ".env.test"
+        : ".env"
+});
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +23,13 @@ async function connectDB() {
   }
 }
 await connectDB();
+setInterval(async () => {
+    try {
+        await releaseExpiredSeatHolds();
+    } catch (error) {
+        console.error("Seat expiry cleanup failed:", error);
+    }
+}, 30 * 1000);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
