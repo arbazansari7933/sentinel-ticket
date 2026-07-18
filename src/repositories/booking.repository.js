@@ -138,10 +138,10 @@ export async function updateSeatStatus(client, showId, seatIds, status) {
     const query = `
         UPDATE seats
         SET status = $3::seat_status,
-locked_at = CASE
-    WHEN $3::seat_status = 'available'::seat_status THEN NULL
-    ELSE locked_at
-END
+        locked_at = CASE
+        WHEN $3::seat_status = 'available'::seat_status THEN NULL
+        ELSE locked_at
+        END
         WHERE show_id=$1
         AND id = ANY($2)
         RETURNING *;
