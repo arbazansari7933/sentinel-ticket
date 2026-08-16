@@ -1,8 +1,7 @@
 import dotenv from "dotenv";
 import app from "./app.js";
 import pool from "./config/db.js";
-import { releaseExpiredSeat } from "./repositories/booking.repository.js";
-
+import { releaseExpiredSeatHolds } from "./services/expiry.service.js";
 dotenv.config({
     path: process.env.NODE_ENV === "test"
         ? ".env.test"

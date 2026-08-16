@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+  "start": "node src/server.js",
   "dev": "nodemon -L src/server.js",
   "migrate": "node src/database/migrate.js",
   "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand"
