@@ -1,4 +1,4 @@
-import { releaseExpiredSeat } from "../repositories/booking.repository";
+import { releaseExpiredSeat } from "../repositories/booking.repository.js";
 
 export async function releaseExpiredSeatHolds() {
     const releaseSeats = await releaseExpiredSeat();
