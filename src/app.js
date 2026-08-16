@@ -15,7 +15,7 @@ app.use("/payment", paymentRoutes)
 
 
 app.get("/", (req, res) => {
-  res.send("SentinelTicket API is running");
+  res.send("SentinelTicket API is running, checking CI/CD pipeline is working !");
 });
 
 app.get("/health", (req, res) => {
