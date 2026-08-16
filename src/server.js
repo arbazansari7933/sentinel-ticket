@@ -31,5 +31,6 @@ setInterval(async () => {
 }, 30 * 1000);
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}
+    checking CI/CD pipeline is working !`);
 });
